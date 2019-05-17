@@ -21,8 +21,20 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:100,300,500" rel="stylesheet">
 	 <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
 	  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
-	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+	   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+	  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+	  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+	  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+	  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.1.0/vuex.js"></script>
+
+
+	  <!--Vuex Stores-->
+	  <script src="./store/firebasestore.js"></script>
+
+	  <!--components-->
 	  <script src="./components/header.js"></script>
+	  
 			<!--
 		CSS
 		============================================= -->
@@ -35,6 +47,10 @@
 		<link rel="stylesheet" href="css/main.css">
 		<link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+
+		<!-- TODO: Add SDKs for Firebase products that you want to use
+		     https://firebase.google.com/docs/web/setup#config-web-app -->
 	</head>
 	<body class="dup-body">
 		<div class="dup-body-wrap" id="app">
@@ -67,13 +83,13 @@
 				<div class="row align-items-center">
 					<div class="col-md-4 col-sm-6 text-center">
 						<div class="studio-thumb">
-							<img src="img/s.jpg" class="img-fluid" alt="">
+							<img src="img/k.jpg" class="img-fluid" alt="">
 						</div>
 					</div>
 					<div class="col-md-8 col-sm-6">
 						<div class="studio-content">
-							<h2>Green Forest Studio</h2>
-							<p>Few would argue that, despite the advancements of feminism over the past three decades, women still face a double standard when it comes to their behavior. While men’s borderline-inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards – especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach.Small Towns and Big StatesFor </p>
+							<h2 style="display: inline-block; font-family: 'Sacramento', cursive; font-weight:bold; font-size: 40px;">Posh</h2> &nbsp;&nbsp;<h2 style="display: inline-block;"> Fashion Festival</h2>
+							<p>About posh fashion festival</p>
 							<a href="#" class="primary-btn">View More<span class="lnr lnr-arrow-right"></span></a>
 						</div>
 					</div>
@@ -87,60 +103,20 @@
 				<div class="row align-items-center">
 					<div class="col-lg-5">
 						<div class="achivement-content">
-							<h2>Our Achievements</h2>
-							<p class="mb-30">Few would argue that, despite the advancements of feminism over the past three decades, women still face a double standard when it comes to their behavior. While men’s borderline-inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct </p>
+							<h2>Our Objectives</h2>
+							<p class="mb-30">about goals</p>
 							<a href="#" class="primary-btn">View More<span class="lnr lnr-arrow-right"></span></a>
 						</div>
 					</div>
 					<div class="col-lg-6">
 						<div class="total-achivement">
 							<div class="row">
-								<div class="col-md-4 col-sm-6">
+								<div class="col-md-4 col-sm-6" v-for="data,index in list" :key="index">
 									<div class="single-achivement">
 										<a href="#" class="achivement-link">
-											<i class="fa fa-behance"></i>
+											<i :class="data.icon"></i>
 										</a>
-										<h6><a href="#">Behance Review</a></h6>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-achivement">
-										<a href="#" class="achivement-link">
-											<i class="fa fa-dribbble"></i>
-										</a>
-										<h6><a href="#">Dribbble Shots</a></h6>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-achivement">
-										<a href="#" class="achivement-link">
-											<i class="fa fa-youtube"></i>
-										</a>
-										<h6><a href="#">Youtube Subscribe</a></h6>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-achivement">
-										<a href="#" class="achivement-link">
-											<i class="fa fa-github"></i>
-										</a>
-										<h6><a href="#">Github Push</a></h6>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-achivement">
-										<a href="#" class="achivement-link">
-											<i class="fa fa-trophy"></i>
-										</a>
-										<h6><a href="#">Offline Trophy</a></h6>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-achivement">
-										<a href="#" class="achivement-link">
-											<i class="fa fa-usd"></i>
-										</a>
-										<h6><a href="#">Cash Prizes</a></h6>
+										<h6><a href="#">{{data.title}}</a></h6>
 									</div>
 								</div>
 							</div>
@@ -155,8 +131,8 @@
 			<div class="overlay overlay-bg"></div>
 			<div class="container">
 				<div class="video-content">
-					<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="play-btn"><img src="img/play-btn.png" alt=""></a>
-					<h3 class="h2 text-white">Everyone wants to be unique</h3>
+					<a href="https://www.youtube.com/watch?v=cGXuAlndfjM" class="play-btn"><img src="img/play-btn.png" alt=""></a>
+					<h3 class="h2 text-white">Everyone deserves to be unique</h3>
 				</div>
 			</div>
 		</section>
@@ -167,7 +143,7 @@
 				<div class="row justify-content-between">
 					<div class="col-lg-5">
 						<div class="skill-content">
-							<h2>Our Tools Expertness</h2>
+							<h2>Our Focuses</h2>
 							<p class="mb-30">Few would argue that, despite the advancements of feminism over the past three decades, women still face a double standard when it comes to their behavior. While men’s borderline-inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct </p>
 							<a href="#" class="primary-btn">View More<span class="lnr lnr-arrow-right"></span></a>
 						</div>
@@ -213,7 +189,7 @@
 									<h2 class="text-white">Glowing Milk Bottle</h2>
 									<h5 class="text-white mb-20">Collect from your nearest supershop imedietely</h5>
 									<p class="text-white mb-30">Few would argue that, despite the advancements of feminism over the past three decades, women still face a double standard when it comes to their behavior. While men’s borderline-inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards – especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach.Small Towns and Big StatesFor evidence of the double standard, we need look no farther than Arlington.</p>
-									<a href="#" class="primary-btn white">View More<span class="lnr lnr-arrow-right"></span></a>
+									<a href="#" class="primary-btn white" style="color: #db0f64;">View More<span class="lnr lnr-arrow-right"></span></a>
 								</div>
 							</div>
 						</div>
@@ -428,10 +404,38 @@
 		<script>
 			var app = new Vue({
 			  el: '#app',
+			  store,
 			  data() {
 			  	return{
 			  		msg:"Welcome to New Vue Instance",
 			  		link:"",
+			  		firebase:null,
+			  		list:[
+						{
+							icon:'fa fa-behance',
+							title:'Behance Review'
+						},
+						{
+							icon:'fa fa-dribbble',
+							title:'Dribbble Shots'
+						},
+						{
+							icon:'fa fa-youtube',
+							title:'Youtube Subscribe'
+						},
+						{
+							icon:'fa fa-github',
+							title:'Github Push'
+						},
+						{
+							icon:'fa fa-trophy',
+							title:'Offline Trophy'
+						},
+						{
+							icon:'fa fa-usd',
+							title:'Cash Prizes'
+						}
+					]
 			  	}
 			  },
 			  methods:{
